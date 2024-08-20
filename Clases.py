@@ -16,5 +16,9 @@ print(f"{persona1.nombre}")
 print(f"{persona1.apellido}")
 print(f"{persona1.edad}")
 
+print(f"{persona2.nombre}")
+
 persona1.hablar
 persona2.caminar
+
+
