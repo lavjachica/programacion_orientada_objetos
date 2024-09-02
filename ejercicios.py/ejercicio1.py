@@ -13,7 +13,7 @@ class Persona():
         ### inicializando metodo para calcular imc 
     def peso_imc(self):
         imc = self.peso/(self.altura **2) 
-        print(f"IMC de {self.nombre}: {imc: 2f}")
+        print(f"IMC de {self.nombre}: {imc:.2f}")
 
             
         if imc < 18.5:
@@ -28,7 +28,7 @@ class Persona():
         return imc
     def promedio_asignaturas(self, nota1, nota2, nota3):
         promedio = (nota1 + nota2 + nota3) /3 
-        print(f"promedio de notas de {self.nombre} es de {promedio:2f}")
+        print(f"promedio de notas de {self.nombre} es de {promedio:.2f}")
 
         if promedio >= 4.0:
             print(f"{self.nombre} ha aprobado")
