@@ -1,44 +1,69 @@
-#la fonda menos cara de chile
+#Ejercicio 4
+
 class Pedido:
     def __init__(self, numero_mesa):
-        self.numero_mesa = numero_mesa
-        self.platos = []
-        self.total = 0.0
-    def agregar_plato(self, nombre, precio):
-        self.platos.append((nombre, precio))
-        self.total += precio
+        # Inicializar el número de mesa y los detalles del pedido
+        self.numero_mesa = numero_mesa  # Número de mesa
+        self.platos = []  # Lista de platos (nombre, precio)
+        self.total = 0.0  # Total del pedido
+    
+    def añadir_plato(self, nombre_plato, precio):
+       
+     # Agregar el plato a la lista y actualiza el total
+        self.platos.append((nombre_plato, precio))
+        self.total += precio                         # Actualizar el total del pedido
+    
     def calcular_total(self):
-        return self.total
+        
+        return self.total  # Devuelve el total del pedido
+    
     def __len__(self):
-        return len(self.platos)
-    def __add__(self, otro_pedido):
-        if self.numero_mesa != otro_pedido.numero_mesa:
-            raise ValueError("Los pedidos deben ser de la misma mesa para combinar.")
-        nuevo_pedido = Pedido(self.numero_mesa)
-        nuevo_pedido.platos = self.platos + otro_pedido.platos
-        nuevo_pedido.total = self.total + otro_pedido.total
-        return nuevo_pedido
-    def __del__(self):
+         
+        # Retornar el número de platos
+        return len(self.platos)      # retornamos el numero de platos con len que cuenta la cantidad de cadenas
+    
+    def __add__(self, otro_pedido):    #Método mágico para combinar dos pedidos de la misma mesa
+        
+        # Comprobar si ambos pedidos son de la misma mesa
+        if self.numero_mesa == otro_pedido.numero_mesa:
+            nuevo_pedido = Pedido(self.numero_mesa)  # Crear un nuevo pedido 
+            # Combinar los platos y actualizar el total
+            nuevo_pedido.platos = self.platos + otro_pedido.platos
+            nuevo_pedido.total = self.total + otro_pedido.total
+            return nuevo_pedido  # Devolver el pedido combinado
+        else:
+            raise ValueError("Los pedidos son de mesas diferentes, no se pueden combinar.") # aqui se utiliza raise y value error para que lanze una excepcion porque no se pueden combinar 
+    
+    def __del__(self): #Método finalizador que se llama al eliminar el pedido
+       
+        # Mostrar un mensaje cuando se elimina el pedido
         print(f"El pedido de la mesa {self.numero_mesa} ha sido completado.")
-    def __repr__(self):
-        platos_str = ', '.join([f'{nombre} (${precio:.2f})' for nombre, precio in self.platos])
-        return (f'Pedido(mesa={self.numero_mesa}, '
-                f'platos=[{platos_str}], '
-                f'total=${self.total:.2f})')
+
+# Ejemplo de uso
 if __name__ == "__main__":
-    pedido1 = Pedido(5)
-    pedido1.agregar_plato("Anticucho", 10000)
-    pedido1.agregar_plato("Empanada de pino", 7000)
-    print(pedido1)
-    print(f"Total: ${pedido1.calcular_total():.2f}")
-    print(f"Número de platos: {len(pedido1)}")
-    pedido2 = Pedido(5)
-    pedido2.agregar_plato("Choripan", 15000)
-    pedido2.agregar_plato("Terremoto", 5000)
-    print(pedido2)
-    pedido_combinado = pedido1 + pedido2
-    print(pedido_combinado)
-    print("")
-    del pedido1
-    del pedido2
-    del pedido_combinado
+    # Crear un pedido para la mesa 1
+    pedido1 = Pedido(numero_mesa=1)
+    
+    # Añadir platos al pedido
+    pedido1.añadir_plato("completo italiano", 10.0)
+    pedido1.añadir_plato("bebida limon soda", 2.5)
+    
+    # Ver el total del pedido
+    print(f"Total del pedido: ${pedido1.calcular_total():.2f}")
+    
+    # Contar el número de platos en el pedido
+    print(f"Número de platos en el pedido: {len(pedido1)}")
+    
+    # Crear otro pedido para la misma mesa
+    pedido2 = Pedido(numero_mesa=1)
+    pedido2.añadir_plato("pollo con papas fritas", 3.0)
+    
+    # Combinar los pedidos de las mesas
+    pedido_combined = pedido1 + pedido2  # Combina ambos pedidos de la mesa 1
+    print(f"Total del pedido combinado: ${pedido_combined.calcular_total():.2f}")
+    
+    # Contar el número de platos en el pedido combinado
+    print(f"Número de platos en el pedido combinado: {len(pedido_combined)}")
+    
+    # Eliminar el pedido combinado (pongo el método __del__)
+    del pedido_combined
