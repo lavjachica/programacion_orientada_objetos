@@ -1,70 +1,65 @@
-# Clase Producto
 class Producto:
     def __init__(self, nombre, precio, cantidad, codigo):
         self.nombre = nombre
         self.precio = precio
         self.cantidad = cantidad
         self.codigo = codigo
-        self.historial_stock = []  #Lista que registra los cambios en el stock
-        self.historial_stock.append(f"stock inicial: {cantidad}")
-  
-    #Crear método que actualice el stock del producto y añada el cambio al historial de stock.
-    def actualizar_stock(self, cambio):
-        self.cantidad += cambio
-        self.historial_stock.append(f"Cambio de stock: {cambio}, Nueva cantidad: {self.cantidad}")
+        self.historial_stock = []
+        self.historial_stock.append(f"Stock inicial: {cantidad} unidades")
     
-    #Implementar método que calcule el valor total de los productos disponibles
-    def valor_total(self):
-        return self.precio * self.cantidad
+    def actualizar_stock(self, cambio): ## metodo del cambio, se suma cambio a self.cantidad
+        self.cantidad += cambio ## ej: 50 + (-5) = 45
+        if cambio > 0:  ## si cambio es mayor que cero entonces muestra este print inicializado arriba
+            self.historial_stock.append(f"Se agregaron {cambio} unidades. Total: {self.cantidad}")
+        else:
+            self.historial_stock.append(f"Se restaron {-cambio} unidades. Total: {self.cantidad}")
     
-    #Crear METODO MAGICO, que muestra el estado del producto c: 
-    def __str__(self):
+    def valor_total(self): ## metodo para sacar el valor total del inventario 
+        return self.cantidad * self.precio
+    
+    def __str__(self): ### metodo magico para mostrar el estado del producto 
         return (f"Producto: {self.nombre}, Precio: {self.precio}, "
                 f"Cantidad: {self.cantidad}, Código: {self.codigo}")
-
-# Clase Inventario
 class Inventario:
     def __init__(self):
-        self.productos = {}  #Diccionario 
+        self.productos = {}   ## diccionario de productos 
     
-    #Metodo para agregar un nuevo producto al inventario
-    def agregar_producto(self, producto):
-        if producto.codigo in self.productos:
-            print(f"El producto con código {producto.codigo} ya existe en el inventario.")
-        else:
+    def agregar_producto(self, producto): ## para agregar un producto al inventario 
             self.productos[producto.codigo] = producto
-            print(f"Producto {producto.nombre} agregado al inventario.")
+            print(f"El producto {producto.nombre} fue agregado al inventario.")
     
-    #Metodo para actualizar el stock de un producto en el inventario
-    def actualizar_stock_producto(self, codigo, cambio):
-        producto = self.productos.get(codigo, None)
-        if producto:
-            producto.actualizar_stock(cambio)
-            print(f"Stock actualizado para el producto {producto.nombre}.")
+    def actualizar_stock_producto(self, codigo, cambio):   ## actualiza el stock del producto, 
+        if codigo in self.productos:
+            self.productos[codigo].actualizar_stock(cambio)
         else:
-            print(f"No se encontró un producto con el código {codigo} en el inventario.")
+            print("Producto no encontrado.") ## sino encuentra el codigo del producto muestra el print 
     
-    #Metodo para mostrar todos los productos del inventario y sus detalles
-    def mostrar_inventario(self):
-        if not self.productos:
-            print("El inventario está vacío.")
-        else:
-            for producto in self.productos.values():
-                print(producto)
+    def mostrar_productos(self): ### imprime la informacion de todos los productos del diccionario 
+        for producto in self.productos.values(): ## values para saber todos los valores del diccionario  
+            print(producto) 
     
-    # Método para obtener el valor total de los productos en el inventario
-    def valor_total_inventario(self):
-        total = sum(producto.valor_total() for producto in self.productos.values())
+    def valor_total_inventario(self):  ## llamamos el metodo valor total, osea valor total de cada producto en el diccionario
+        total = sum(producto.valor_total() for producto in self.productos.values()) ## sum toma todos los valores y los suma
         return total
-producto1 = Producto("Libro", 15000, 25, 1778) 
-producto2 = Producto("Cuaderno", 2300, 50, 1777)
-producto3 = Producto("libreta", 1300, 60, 1776)
-producto4 = Producto("Caja de Lapices", 2500, 15, 1775)
-producto5 = Producto("pegamento", 800, 50, 1774)
 
-#### MOSTRANDO ESTADO DEL PRODUCTO
-print(producto1)
-print(producto2)
-print(producto3)
-print(producto4)
-print(producto5)
+producto1 = Producto("Libro", 15000, 25, "1778") 
+producto2 = Producto("Cuaderno", 2300, 50, "1777")
+producto3 = Producto("libreta", 1300, 60, "1776")
+producto4 = Producto("Caja de Lapices", 2500, 15, "1775")
+producto5 = Producto("pegamento", 800, 50, "1774")
+inventario = Inventario()
+inventario.agregar_producto(producto1)
+inventario.agregar_producto(producto2)
+inventario.agregar_producto(producto3)
+inventario.agregar_producto(producto4)
+inventario.agregar_producto(producto5)
+inventario.actualizar_stock_producto("1778", 5)
+inventario.actualizar_stock_producto("1777", -3)
+inventario.actualizar_stock_producto("1776", 15)
+inventario.actualizar_stock_producto("1775", 60)
+inventario.actualizar_stock_producto("1774", -40)
+inventario.mostrar_productos()
+
+print(f"Valor total del inventario: {inventario.valor_total_inventario()}")
+print(f"Historial de stock del producto 1778: {producto1.historial_stock}")
+print(f"Historial de stock del producto 1777: {producto2.historial_stock}")
