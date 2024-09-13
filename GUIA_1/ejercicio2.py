@@ -15,7 +15,7 @@ class FuncionTrigonometrica:
         elif self.tipo == 'tangente':
             return self.amplitud * math.tan(x * 2 * math.pi / self.periodo)
         else:
-            raise ValueError("Ingrese una funcion valida")
+            print("Ingrese una funcion valida")
 
     def graficar(self, x_min, x_max, num_puntos=1000): ## la cantidad de puntos elevada es para que se vea suave la grafica
         x = [x_min + (x_max - x_min) * i / (num_puntos - 1) for i in range(num_puntos)] ##x_min + (x_max- x_min) calcula el intervalo total, que se divide por el num de puntos, el cual da la distancia entre ellos, luego se multiplica por i, que i itera sobre el rango de num_puntos., osea la cantidad de puntos
@@ -41,7 +41,7 @@ class FuncionTrigonometrica:
 # graficar funcion seno 
 amplitud = 1           ### valores generales entregados a amplitud y periodo
 periodo = math.pi
-funcion = FuncionTrigonometrica('seno', amplitud, periodo) ## detallamos la funcion
+funcion = FuncionTrigonometrica('seno', amplitud, periodo) ## entregamos los valores a funcion para utilizarlos en valor critico y graficar 
 print(funcion)
 print("Valor crítico:", funcion.valor_critico()) ##llamamos metodo valor critico 
 funcion.graficar(-2*math.pi, 2*math.pi)  ## entregamos los valores maximos y minimos a graficar 
