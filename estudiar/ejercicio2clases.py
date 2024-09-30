@@ -1,30 +1,36 @@
+##Crea la clase Coche que contenga las siguientes propiedades:
+##marca (string): La marca del coche.
+##gasolina (float): La cantidad de gasolina disponible en el coche.
+##La clase tendrá un método llamado conducir() que recibirá como argumento el número de kilómetros a
+##recorrer y sumará los kilómetros recorridos al valor de la propiedad kilometros_recorridos. Por cada 10
+##kilómetros recorridos, se restará 1 litro de gasolina al valor de la propiedad gasolina. Si la gasolina no es
+##suficiente para recorrer la distancia solicitada, el coche conducirá solo hasta donde alcance la gasolina y
+##mostrará un mensaje indicando que se ha quedado sin gasolina.
+##Además, la clase contendrá otro método llamado cargar_gasolina() que recibirá como argumento los
+##litros de gasolina que se desean agregar al coche, sumando estos litros al valor de la propiedad gasolina.
 class Coche:
-    def __init__(self, marca, gasolina):
-        self.marca = marca
+    def __init__(self, marca, gasolina, kilometros_recorridos):
+        self.marca = marca 
         self.gasolina = gasolina
-        self.kilometros_recorridos = 0
-    
+        self.kilometros_Recorridos = kilometros_recorridos
     def conducir(self, kilometros):
-        # Calcular la cantidad de gasolina necesaria para recorrer los kilómetros
-        gasolina_necesaria = kilometros / 10
-        if gasolina_necesaria <= self.gasolina:
-            # Si hay suficiente gasolina, recorremos toda la distancia
-            self.kilometros_recorridos += kilometros
-            self.gasolina -= gasolina_necesaria
-            print(f"Has recorrido {kilometros} kilómetros. Te queda {self.gasolina:.2f} litros de gasolina.")
+        litros_gasolina = kilometros / 10 
+        
+        
+        if litros_gasolina <= self.gasolina:
+            self.kilometros_Recorridos += kilometros
+            self.gasolina -= litros_gasolina
+            print(f"tu coche ha recorrido {self.kilometros_Recorridos}km y tiene gasolina {self.gasolina}L")
         else:
-            # Si no hay suficiente gasolina, calculamos cuánto se puede recorrer
-            kilometros_posibles = self.gasolina * 10
-            self.kilometros_recorridos += kilometros_posibles
+            km_posibles = self.gasolina * 10
+            self.kilometros_Recorridos += km_posibles
             self.gasolina = 0
-            print(f"Te has quedado sin gasolina después de recorrer {kilometros_posibles:.2f} kilómetros.")
-    
-    def cargar_gasolina(self, litros):
-        self.gasolina += litros
-        print(f"Has cargado {litros} litros de gasolina. Ahora tienes {self.gasolina:.2f} litros.")
+            print(f"Tu coche ha quedado sin gasolina {self.gasolina}")
 
-# Ejemplo de uso
-coche = Coche("Toyota", 5)
-coche.conducir(30)  # Debería gastar 3 litros y quedar con 2 litros de gasolina.
-coche.cargar_gasolina(10)  # Carga 10 litros más.
-coche.conducir(100)  # Conducir 100 km, pero quedarse sin gasolina si no es suficiente.
+coche1 = Coche("toyota", 100,2)
+
+coche1.conducir(100)
+
+
+
+        

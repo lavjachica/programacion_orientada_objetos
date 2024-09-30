@@ -1,84 +1,76 @@
 import pygame
 
-# Inicializar Pygame
+# Inicializamos Pygame
 pygame.init()
 
-# Definir colores
-BLANCO = (255, 255, 255)
+# Definimos colores
+ROJO = (255, 0, 0)
 AZUL = (0, 0, 255)
-VERDE = (0, 255, 0)
 MORADO = (128, 0, 128)
 
-# Configurar la pantalla
-ANCHO = 800
-ALTO = 600
+# Tamaño de la ventana
+ANCHO, ALTO = 800, 600
 pantalla = pygame.display.set_mode((ANCHO, ALTO))
-pygame.display.set_caption("Movimiento de Círculos")
 
-# Definir la velocidad de movimiento
-velocidad = 5
-
-# Clase para los círculos
+# Clase Círculo
 class Circulo:
-    def __init__(self, x, y, color):
+    def __init__(self, x, y, radio, color):
         self.pos = [x, y]
+        self.radio = radio
         self.color = color
-        self.radio = 25
+        self.color_original = color
 
-    def mover(self, teclas):
-        if teclas[pygame.K_UP]:
-            self.pos[1] -= velocidad
-        if teclas[pygame.K_DOWN]:
-            self.pos[1] += velocidad
-        if teclas[pygame.K_LEFT]:
-            self.pos[0] -= velocidad
-        if teclas[pygame.K_RIGHT]:
-            self.pos[0] += velocidad
+    def mover(self, dx, dy):
+        self.pos[0] += dx
+        self.pos[1] += dy
 
-    def dibujar(self, pantalla):
-        pygame.draw.circle(pantalla, self.color, self.pos, self.radio)
+    def dibujar(self):
+        pygame.draw.circle(pantalla, self.color, (int(self.pos[0]), int(self.pos[1])), self.radio)
 
-    def colisionar(self, otro):
-        # Verificar si colisiona con otro círculo
+    def colision(self, otro):
         distancia = ((self.pos[0] - otro.pos[0]) ** 2 + (self.pos[1] - otro.pos[1]) ** 2) ** 0.5
-        return distancia < (self.radio + otro.radio)
+        if distancia < self.radio + otro.radio:
+            self.color = MORADO
+            otro.color = MORADO
+        else:
+            self.color = self.color_original
+            otro.color = otro.color_original
 
-# Crear los círculos
-circulo1 = Circulo(300, 300, AZUL)
-circulo2 = Circulo(500, 300, VERDE)
+# Creación de círculos
+circulo1 = Circulo(300, 300, 30, ROJO)
+circulo2 = Circulo(500, 300, 30, AZUL)
+
+# Control de FPS
+clock = pygame.time.Clock()
 
 # Bucle principal
-ejecutando = True
-while ejecutando:
-    for evento in pygame.event.get():
-        if evento.type == pygame.QUIT:
-            ejecutando = False
+corriendo = True
+while corriendo:
+    pantalla.fill((255, 255, 255))  # Fondo blanco
 
-    # Obtener las teclas presionadas
-    teclas = pygame.key.get_pressed()
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            corriendo = False
 
-    # Mover los círculos
-    circulo1.mover(teclas)
-    circulo2.mover(teclas)
+    # Movimiento de los círculos
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_a]: circulo1.mover(-5, 0)
+    if keys[pygame.K_d]: circulo1.mover(5, 0)
+    if keys[pygame.K_w]: circulo1.mover(0, -5)
+    if keys[pygame.K_s]: circulo1.mover(0, 5)
 
-    # Verificar colisiones y cambiar colores
-    if circulo1.colisionar(circulo2):
-        circulo1.color = MORADO
-        circulo2.color = MORADO
-    else:
-        circulo1.color = AZUL
-        circulo2.color = VERDE
+    # Colisión
+    circulo1.colision(circulo2)
 
-    # Dibujar las formas
-    pantalla.fill(BLANCO)
-    circulo1.dibujar(pantalla)
-    circulo2.dibujar(pantalla)
+    # Dibujar círculos
+    circulo1.dibujar()
+    circulo2.dibujar()
 
-    # Actualizar la pantalla
+    # Actualizamos la pantalla
     pygame.display.flip()
 
-    # Controlar la velocidad del bucle
-    pygame.time.Clock().tick(30)
+    # Control de la velocidad del juego
+    clock.tick(60)
 
-# Salir de Pygame
+# Cerramos Pygame
 pygame.quit()
