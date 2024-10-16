@@ -12,32 +12,31 @@
 # 5. Evaluar si los estudiantes han aprobado llamando a un método para evaluar el estado
 # del estudiante, y que muestre un mensaje con su estado de aprobación.
 class Estudiante:
-    def __init__(self, nombre, promedio, estado):
+    def __init__(self, nombre, promedio):
         self.__nombre = nombre
-        self.__promedio = promedio
-        self.estado = True
+        self.__promedio =promedio
+        self.estado = self.evaluar_estado()
+    def __str__(self):
+        return f"nombre estudiante: {self.__nombre}, promedio: {self.__promedio}, aprobado: {self.estado}"
 
-estudiante1 = Estudiante("Carlos", 56, True)
-estudiante2 = Estudiante("Maria", 65, True)
-estudiante3 = Estudiante("Claudia", 39, False)
-
-def getnombre(self):
-    return self.__nombre
-print(estudiante1._Estudiante__nombre)
-print(estudiante2._Estudiante__nombre)
-print(estudiante3._Estudiante__nombre)
-
-def getpromedio(self):
-    return self.__promedio
-print(estudiante1._Estudiante__promedio)
-print(estudiante2._Estudiante__promedio)
-print(estudiante3._Estudiante__promedio)
-def obtener_nombre(self):
-    return self.__nombre
-def obtener_promedio(self):
-    return self.__promedio
-def __str__(self):
-    return f"El estudiante {self.obtener_nombre()}, con promedio {self.obtener_promedio()}, ¿ha aprobado? {self.estado}"
+    def evaluar_estado(self):
+        return self.__promedio >= 4.0
+    
+    def actualizar_notas(self, new_nota):
+        print(f"promedio anterior: {self.__promedio} de {self.__nombre}")
+        self.__promedio = ((self.__promedio + new_nota) /2)
+        print(f"nuevo promedio: {self.__promedio}")
+        self.estado = self.evaluar_estado()
+        print(f"aprobado :{self.estado}")
+estudiante1 = Estudiante("Carlos", 5.6)
+estudiante2 = Estudiante("Maria", 6.5)
+estudiante3 = Estudiante("Claudia", 3.9)
 
 
-print(estudiante1)
+for estudiante in(estudiante1, estudiante2, estudiante3):
+    print(estudiante)
+estudiante1.actualizar_notas(2.1)
+estudiante2.actualizar_notas(4.5)
+estudiante3.actualizar_notas(7.0)
+
+estudiante.evaluar_estado()
