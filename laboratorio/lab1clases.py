@@ -1,27 +1,39 @@
 class Personaje:
-    def __init__(self, nombre, vida, pts_ataque):
-        self.nombre = nombre
+    def __init__(self, nombre, vida, ataque):
+        self.nombre = nombre 
         self.vida = vida 
-        self.pts_ataque = pts_ataque
-    def atacar(self, ataque):
-        personaje1 = self.pts_ataque
-        personaje2 = self.vida
-        (self.vida - self.pts_ataque) * ataque
-        print(f"Te han atacado {ataque} cantidad de veces")
-        
-        
-    def vida_final(self): 
-        if self.vida > 0:
-            print(f"el personaje {self.nombre} ha sobrevivido al ataque, vida: {self.vida}")
-        else:
-            print(f"el personaje no ha sobrevivido al ataque")
+        self.ataque = ataque 
+
+    def atacar(self, otro_personaje): 
+       otro_personaje.vida -= self.ataque
+       print(f"{self.nombre} ha atacado a vida de {otro_personaje.vida}")
+
+    def esta_vivo(self):
+       return self.vida > 0
+    def estado(self):
+        print(f"{self.nombre}, vida {self.vida} y ataque {self.ataque}")
+
+personaje1 = Personaje("Guerrero", 100, 15)
+personaje2 = Personaje("Mago", 80, 20)
+
+while personaje1.esta_vivo() and personaje2.esta_vivo():
+    personaje1.atacar(personaje2)
+    personaje1.estado()
+    personaje2.estado()
+    
+
+    if not personaje2.esta_vivo():
+        print(f"{personaje1.nombre} ha sido derrotado")
+        break
+    personaje2.atacar(personaje1)
+    personaje1.estado()
+    personaje2.estado()
+    print()
+
+    if not personaje1.esta_vivo():
+        print(f"{personaje2.nombre} ha sido derrotado")
+        break
+
+    
 
 
-
-personaje1= Personaje("Ninja", 50, 25)
-personaje2= Personaje("Kong", 300, 50)
-
-personaje1.atacar(2)
-personaje1.vida_final()
-personaje2.atacar(1)
-personaje2.vida_final()
