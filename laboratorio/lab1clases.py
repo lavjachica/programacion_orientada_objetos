@@ -1,39 +1,30 @@
 class Personaje:
-    def __init__(self, nombre, vida, ataque):
-        self.nombre = nombre 
-        self.vida = vida 
+    def __init__(self, nombre, ataque, vida):
+        self.nombre = nombre
         self.ataque = ataque 
-
-    def atacar(self, otro_personaje): 
-       otro_personaje.vida -= self.ataque
-       print(f"{self.nombre} ha atacado a vida de {otro_personaje.vida}")
-
-    def esta_vivo(self):
-       return self.vida > 0
-    def estado(self):
-        print(f"{self.nombre}, vida {self.vida} y ataque {self.ataque}")
-
-personaje1 = Personaje("Guerrero", 100, 15)
-personaje2 = Personaje("Mago", 80, 20)
-
-while personaje1.esta_vivo() and personaje2.esta_vivo():
-    personaje1.atacar(personaje2)
-    personaje1.estado()
-    personaje2.estado()
+        self.vida = vida 
     
-
-    if not personaje2.esta_vivo():
-        print(f"{personaje1.nombre} ha sido derrotado")
-        break
-    personaje2.atacar(personaje1)
-    personaje1.estado()
-    personaje2.estado()
-    print()
-
-    if not personaje1.esta_vivo():
-        print(f"{personaje2.nombre} ha sido derrotado")
-        break
-
+    def Ataque(self, personaje):
+        if personaje.vida >= self.ataque:
+            personaje.vida -= self.ataque
+            print(f"{personaje.nombre} ha quedado con vida de: {personaje.vida}")
+        elif personaje.vida <= self.ataque:
+            personaje.vida -= self.ataque
+            print(f"el {personaje.nombre} no ha sobrevivido al ataque de {self.nombre}")
+    def Sobrevivir(self):
+        return self.vida > 0
     
+    def __str__(self):
+        return f"el personaje {self.nombre} con vida {self.vida} y ataque {self.ataque}"
 
-
+personaje1 = Personaje("guerrero", 5, 15)
+personaje2 = Personaje("Ninja", 8, 15)
+## primer ataque
+personaje1.Ataque(personaje2)
+personaje2.Ataque(personaje1)
+## resultados primer ataque
+print(personaje1)
+print(personaje2)
+## segundo ataque 
+personaje1.Ataque(personaje2)
+personaje2.Ataque(personaje1)
