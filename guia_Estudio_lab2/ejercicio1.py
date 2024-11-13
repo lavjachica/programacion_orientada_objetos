@@ -1,50 +1,33 @@
-class GestorTicketsEventos:
-    # Descuento por compras en grupo (20%)
-    DESCUENTO_GRUPO = 0.20
-    
+class Sistema:
     def __init__(self):
-        # Diccionario para almacenar los tipos de tickets y sus precios
-        self._tipos_tickets = {}
-        # Lista para registrar las ventas realizadas
-        self._ventas_registradas = []
-
-    def agregar_tipo_ticket(self, nombre_ticket, precio):
-        """ Agrega un nuevo tipo de ticket al sistema. """
-        assert precio > 0, "El precio debe ser positivo."
-        self._tipos_tickets[nombre_ticket] = precio
-        print(f"Tipo de ticket '{nombre_ticket}' agregado con precio {precio}.")
-
-    def registrar_venta(self, nombre_ticket, cantidad):
-        """ Registra la venta de tickets. """
-        assert nombre_ticket in self._tipos_tickets, "El tipo de ticket no existe."
-        assert cantidad > 0, "La cantidad debe ser positiva."
+        self.tickets = {}
+        self.ventas = []
         
-        precio_unitario = self._tipos_tickets[nombre_ticket]
-        total_venta = self.calcular_total_venta(precio_unitario, cantidad)
+    descuento_grupal = 0.20
+    
+    def agregar_ticket(self, tipo, precio):
+        assert precio > 0, "Su boleto debe costar mas que Cero."
+        self.tickets[tipo] = precio
         
-        # Registrar la venta en la lista
-        self._ventas_registradas.append({
-            'nombre_ticket': nombre_ticket,
-            'cantidad': cantidad,
-            'total': total_venta
-        })
-        
-        print(f"Venta registrada: {cantidad} tickets de '{nombre_ticket}' por un total de {total_venta}.")
-
+    def vender_tickets(self, ticket_vender, cantidad):
+        assert ticket_vender in self.tickets, "Su ticket no existe"
+        assert cantidad > 0, "La cantidad no puede ser menor que Cero."
+        precio_de_ticket = self.tickets[ticket_vender]
+        precio_venta = precio_de_ticket * cantidad 
+        self.ventas.append(ticket_vender)
+        print(f"La venta ha sido realizada con exito, han escogio los Tickets {ticket_vender} con precio { precio_de_ticket} y una cantidad de {cantidad} con un valor total de {precio_venta}")
+        return precio_venta
     @staticmethod
-    def calcular_total_venta(precio_unitario, cantidad):
-        """ Calcula el total de la venta considerando el descuento por grupo. """
-        total = precio_unitario * cantidad
-        if cantidad >= 5:  # Aplicar descuento si se compran 5 o más tickets
-            total -= total * GestorTicketsEventos.DESCUENTO_GRUPO
-        return total
+    def descuento_grupal(precio_venta, cantidad):
+        if cantidad >= 3:
+             descuento_grupal = precio_venta - (precio_venta * Sistema.descuento_grupal)
+             print(f"Felicidades han obtenido un descuento por una compra grupal de un 20% su nuevo valor es de: ${descuento_grupal}")
+        return descuento_grupal
+    
 
-# Ejemplo de uso
-gestor = GestorTicketsEventos()
-gestor.agregar_tipo_ticket("General", 50)
-gestor.agregar_tipo_ticket("VIP", 100)
+sistema = Sistema()
 
-gestor.registrar_venta("General", 3)  # Sin descuento
-gestor.registrar_venta("VIP", 5)       # Con descuento por grupo 
-
-
+sistema.agregar_ticket("Vip", 15000)
+sistema.agregar_ticket("Diamante", 30000)
+sistema.vender_tickets("Vip", 3)
+sistema.vender_tickets("Diamante", 2)

@@ -17,6 +17,12 @@ class Cliente:
     @property
     def precio(self):
         return self.__precio
+    
+    
+    @precio.setter
+    def precio(self, valor):
+        assert valor >= 0, "El precio no puede ser negativo."
+        self.__precio = valor
 
 
 
@@ -39,6 +45,7 @@ class Gym:
     def set_precio(self, cliente):
         if cliente.suscripcion.lower() == "anual":
             nuevo_precio = cliente.precio - (cliente.precio * self.descuento_especial)
+            cliente.precio = nuevo_precio
             print(f"El precio del Cliente {cliente.nombre} es de {nuevo_precio} debido a escoger suscripcion Anual")
             
             return nuevo_precio
@@ -62,4 +69,3 @@ gym = Gym("Pacific")
 gym.agregar_cliente(cliente1)
 gym.set_precio(cliente1)
 gym.descuento_inicial(cliente1)
-gym.aplicar_descuentos(cliente1)
